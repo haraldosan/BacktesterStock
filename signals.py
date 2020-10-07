@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import yfinance as yf
-from pandas_datareader import data as pdr
+# from pandas_datareader import data as pdr
 import datetime as dt
 
 
@@ -10,13 +10,13 @@ class Signals:
     def __init__(self, ticker):
         self.ticker = ticker
 
-    def sma(self, smatype):
-        try:
-            hist = self.ticker.history(period="max")
-            hist[f'SMA({smatype})'] = hist.Close.rolling(smatype).mean()
-            return hist[f'SMA({smatype})'][-1]
-        except:
-            return None
+    def sma(self, hist, smatype, date):
+        # hist = hist[(hist["Date"] <= date)][:-21:-1]
+        hist = hist[(hist["Date"] <= date)][- smatype:]
+        hist[f'SMA({smatype})'] = hist.Close.rolling(smatype).mean()
+        # print(hist)
+        return hist.loc[hist.index[-1], f'SMA({smatype})']
+
 
 
 if __name__ == "__main__":
