@@ -19,6 +19,7 @@ class Signals:
 
     # Calculates Exponential Moving Average for a specific date
     def ewa(self, hist, ewatype, date):
+        pass
 
     def bollinger_bands(self, hist, bollingertype, date):
         hist = hist[(hist["Date"] <= date)][- bollingertype:]
