@@ -11,9 +11,13 @@ class Backtester:
         self.hist = self.ticker.history(period="max")
         self.hist.reset_index(inplace=True)
 
+    # Returns Simple Moving Average for a specific date
     def get_sma_for_date(self, date, smatype):
         s = sign(self.ticker)
+
         return s.sma(self.hist, smatype, date)
+
+    # Returns list of Simple Moving Averages for a interval of trading days
 
     def get_sma_time_period(self, window):
         dates_and_sma = []
@@ -22,10 +26,13 @@ class Backtester:
 
         return dates_and_sma
 
+    # Returns Bollinger bands for a specific date
     def get_bollinger_bands_for_date(self, date, bollingertype):
         s = sign(self.ticker)
+
         return s.bollinger_bands(self.hist, bollingertype, date)
 
+    # Returns a list of tuple, with date, upper and lower Bollinger Bands
     def get_bollinger_band_time_period(self, window):
         dates_and_bollinger_bands = []
         for date in self.hist["Date"][- window:]:
@@ -34,11 +41,16 @@ class Backtester:
 
         return dates_and_bollinger_bands
 
+    # Returns full lenght of ticker history percentage changes from previous Closed Price
+    def get_pct_change(self):
+        s = sign(self.ticker)
+        return s.pct_change(self.hist)
+
 
 if __name__ == "__main__":
     tsla = Backtester("TSLA")
     #x = tsla.get_bollinger_bands_for_date("10-07-2020", 20)
     #x = tsla.get_bollinger_band_for_date("10-07-2020", 20)
-
-    x = tsla.get_bollinger_band_time_period(20)
+    #x = tsla.get_bollinger_band_time_period(20)
+    x = tsla.get_pct_change()
     print(x)

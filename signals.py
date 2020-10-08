@@ -17,6 +17,9 @@ class Signals:
         # print(hist)
         return hist.loc[hist.index[-1], f'SMA({smatype})']
 
+    # Calculates Exponential Moving Average for a specific date
+    def ewa(self, hist, ewatype, date):
+
     def bollinger_bands(self, hist, bollingertype, date):
         hist = hist[(hist["Date"] <= date)][- bollingertype:]
         hist[f'Bollinger({bollingertype})'] = hist.Close.rolling(
@@ -28,6 +31,11 @@ class Signals:
             hist.Close.rolling(bollingertype).std() * 2)
 
         return hist.loc[hist.index[-1], f'Bollinger Upper({bollingertype})'], hist.loc[hist.index[-1], f'Bollinger Lower({bollingertype})']
+
+    def pct_change(self, hist):
+        df = hist["Close"]
+        percent = df.pct_change()
+        return percent
 
 
 if __name__ == "__main__":
