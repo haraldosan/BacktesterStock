@@ -17,6 +17,17 @@ class Signals:
         # print(hist)
         return hist.loc[hist.index[-1], f'SMA({smatype})']
 
+    def bollinger_bands(self, hist, bollingertype, date):
+        hist = hist[(hist["Date"] <= date)][- bollingertype:]
+        hist[f'Bollinger({bollingertype})'] = hist.Close.rolling(
+            bollingertype).mean()
+
+        hist[f'Bollinger Upper({bollingertype})'] = hist[f'Bollinger({bollingertype})'] + (
+            hist.Close.rolling(bollingertype).std() * 2)
+        hist[f'Bollinger Lower({bollingertype})'] = hist[f'Bollinger({bollingertype})'] - (
+            hist.Close.rolling(bollingertype).std() * 2)
+
+        return hist.loc[hist.index[-1], f'Bollinger Upper({bollingertype})'], hist.loc[hist.index[-1], f'Bollinger Lower({bollingertype})']
 
 
 if __name__ == "__main__":
@@ -24,12 +35,13 @@ if __name__ == "__main__":
     hist = tsla.ticker.history(period="max")
     close = hist["Close"]
 
-    start_date = "2019-1-1"
-    end_date = "2019-1-31"
+    # """
+    # start_date = "2019-1-1"
+    # end_date = "2019-1-31"
 
-    after_start_date = hist["date"] >= start_date
-    before_end_date = hist["date"] <= end_date
-    between_two_dates = after_start_date & before_end_date
-    filtered_dates = hist.loc[between_two_dates]
-
-    print(close)
+    # after_start_date = hist["date"] >= start_date
+    # before_end_date = hist["date"] <= end_date
+    # between_two_dates = after_start_date & before_end_date
+    # filtered_dates = hist.loc[between_two_dates]
+    # """
+    # print(tsla.sma(hist, 20, "01-01-2019")
