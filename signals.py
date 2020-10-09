@@ -18,7 +18,12 @@ class Signals:
         return hist.loc[hist.index[-1], f'SMA({smatype})']
 
     # Calculates Exponential Moving Average for a specific date
-    def ewa(self, hist, ewatype, date):
+    def ema(self, hist, ematype, date):
+        hist = hist[(hist["Date"] <= date)][-ematype:]
+        hist[f'EMA({ematype})'] = hist.Close.ewm(
+            span=ematype, adjust=False).mean()
+
+        return hist.loc[hist.index[-1], f'EMA({ematype})']
 
     def bollinger_bands(self, hist, bollingertype, date):
         hist = hist[(hist["Date"] <= date)][- bollingertype:]

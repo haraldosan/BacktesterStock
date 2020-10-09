@@ -26,6 +26,11 @@ class Backtester:
 
         return dates_and_sma
 
+    def get_ema_for_date(self, date, ematype):
+        s = sign(self.ticker)
+
+        return s.ema(self.hist, ematype, date)
+
     # Returns Bollinger bands for a specific date
     def get_bollinger_bands_for_date(self, date, bollingertype):
         s = sign(self.ticker)
@@ -52,5 +57,6 @@ if __name__ == "__main__":
     #x = tsla.get_bollinger_bands_for_date("10-07-2020", 20)
     #x = tsla.get_bollinger_band_for_date("10-07-2020", 20)
     #x = tsla.get_bollinger_band_time_period(20)
-    x = tsla.get_pct_change()
+    #x = tsla.get_pct_change()
+    x = tsla.get_ema_for_date("10-08-2020", 50)
     print(x)
