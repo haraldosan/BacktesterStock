@@ -18,6 +18,7 @@ class Signals:
         return hist.loc[hist.index[-1], f'SMA({smatype})']
 
     # Calculates Exponential Moving Average for a specific date
+
     def ema(self, hist, ematype, date):
         hist = hist[(hist["Date"] <= date)][-ematype:]
         hist[f'EMA({ematype})'] = hist.Close.ewm(
