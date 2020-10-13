@@ -22,7 +22,10 @@ class Signals:
     def ema(self, hist, ematype, date):
         hist = hist[(hist["Date"] <= date)][-ematype:]
         hist[f'EMA({ematype})'] = hist.Close.ewm(
-            span=ematype, adjust=False).mean()
+            span=ematype, min_periods=0, adjust=False, ignore_na=False).mean()
+        hist["ewm"] = hist["Close"].ewm(
+            span=ematype, min_periods=0, adjust=True, ignore_na=False).mean()
+        print(hist["ewm"].tail())
 
         return hist.loc[hist.index[-1], f'EMA({ematype})']
 
@@ -42,6 +45,9 @@ class Signals:
         df = hist["Close"]
         percent = df.pct_change()
         return percent
+
+    def prosenter(self):
+        pass
 
 
 if __name__ == "__main__":
