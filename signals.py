@@ -46,9 +46,6 @@ class Signals:
         percent = df.pct_change()
         return percent
 
-    def prosenter(self):
-        pass
-
 
 if __name__ == "__main__":
     tsla = Signals("TSLA")
